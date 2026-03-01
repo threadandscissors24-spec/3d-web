@@ -4,12 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>3D Viewer</title>
+
     <style>
-      html, body { margin:0; height:100%; background:#ffffff; }
-      model-viewer { width:100%; height:100%; }
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #ffffff;
+      }
+      model-viewer {
+        width: 100%;
+        height: 100%;
+      }
     </style>
 
-    <!-- Google <model-viewer> -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   </head>
 
@@ -28,18 +35,27 @@
     ></model-viewer>
 
     <script>
-      // ✅ Agarra el modelo desde la URL: ?m=TS-CROCHET-DRAGON-STD.glb
       const params = new URLSearchParams(window.location.search);
-      const model = params.get("m");
 
-      // Carpeta donde están tus modelos
+      // Puede venir como ?m=archivo.glb
+      const directModel = params.get("m");
+
+      // Puede venir como ?sku=TS-CROCHET-DRAGON-STD
+      const sku = params.get("sku");
+
       const basePath = "/3d/models/";
-
-      // Si no mandan modelo, carga uno por defecto
       const fallback = "TS-CROCHET-DRAGON-STD.glb";
 
+      let finalModel = fallback;
+
+      if (directModel) {
+        finalModel = directModel;
+      } else if (sku) {
+        finalModel = sku + ".glb";
+      }
+
       const mv = document.getElementById("mv");
-      mv.src = basePath + (model || fallback);
+      mv.src = basePath + finalModel;
     </script>
   </body>
 </html>
