@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unsubscribe</title>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f7f7;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .box {
+      background: #ffffff;
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #555;
+    }
+
+    .small {
+      font-size: 13px;
+      margin-top: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h1 id="title">Processing...</h1>
+    <p id="message">Please wait while we update your preferences.</p>
+    <p class="small">Thread and Scissors</p>
+  </div>
+
+  <script>
+    // 👉 TU WEB APP DE APPS SCRIPT
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyweuwSnt8g5kTfK-vtRc0Qx2nuRNjLB-4dZIvo6-hMoj7843FdIAurDVq99s06N85j6g/exec";
+
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get("email");
+
+    const title = document.getElementById("title");
+    const message = document.getElementById("message");
+
+    if (!email) {
+      title.textContent = "Missing email";
+      message.textContent = "We could not process your request because the email was missing.";
+    } else {
+
+      const finalUrl = WEB_APP_URL + "?email=" + encodeURIComponent(email);
+
+      fetch(finalUrl, { mode: "no-cors" })
+        .then(function () {
+          title.textContent = "You have been unsubscribed";
+          message.textContent = "You will no longer receive emails from Thread and Scissors.";
+        })
+        .catch(function () {
+          title.textContent = "Request received";
+          message.textContent = "Your request was submitted successfully.";
+        });
+
+    }
+  </script>
+
+</body>
+</html>
